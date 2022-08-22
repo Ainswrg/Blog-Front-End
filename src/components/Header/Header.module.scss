@@ -1,7 +1,12 @@
+$white: #fff;
+$black: #222;
+$secondaryWhite: #e0e0e0;
+$blue: #4361ee;
+
 .root {
-  background-color: #fff;
+  background-color: $white;
   padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $secondaryWhite;
   margin-bottom: 30px;
 }
 
@@ -11,8 +16,8 @@
 }
 
 .logo {
-  background-color: black;
-  color: #fff;
+  background-color: $black;
+  color: $white;
   font-weight: 700;
   line-height: 35px;
   text-transform: uppercase;
@@ -22,7 +27,7 @@
   text-decoration: none;
 
   &:hover {
-    background-color: #4361ee;
+    background-color: $blue;
   }
 }
 
