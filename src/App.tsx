@@ -1,7 +1,7 @@
 import Container from "@mui/material/Container";
 import React from "react";
 import { Header } from "./components";
-import { Home } from "./pages/Home";
+import { Home, Login } from "./pages";
 
 const App: React.FC = () => {
   return (
@@ -9,6 +9,7 @@ const App: React.FC = () => {
       <Header />
       <Container maxWidth="lg">
         <Home />
+        {/* <Login /> */}
       </Container>
     </>
   );

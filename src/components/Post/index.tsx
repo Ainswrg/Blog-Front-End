@@ -11,14 +11,14 @@ import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
 
 type TUser = {
-  _id: string;
+  _id?: string;
   fullName: string;
-  email: string;
-  passwordHash: string;
+  email?: string;
+  passwordHash?: string;
   avatarUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
 };
 
 type PostProps = {
@@ -27,7 +27,7 @@ type PostProps = {
   title: string;
   createdAt: string;
   imageUrl: string;
-  user: Partial<TUser>;
+  user: TUser;
   viewsCount: number;
   commentsCount: number;
   tags: string[];

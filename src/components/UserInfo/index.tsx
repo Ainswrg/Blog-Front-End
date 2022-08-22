@@ -3,7 +3,7 @@ import styles from "./UserInfo.module.scss";
 
 type UserInfoProps = {
   avatarUrl?: string;
-  fullName?: string;
+  fullName: string;
   additionalText: string;
 };
 
