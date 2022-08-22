@@ -1,17 +1,16 @@
-import Container from "@mui/material/Container";
 import React from "react";
-import { Header } from "./components";
+import { Route, Routes } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
 import { Home, Login } from "./pages";
 
 const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <Container maxWidth="lg">
-        <Home />
-        {/* <Login /> */}
-      </Container>
-    </>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route path="" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+    </Routes>
   );
 };
 
