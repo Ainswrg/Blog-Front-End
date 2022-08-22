@@ -36,7 +36,7 @@ export const Header: React.FC = () => {
                 <Link to="/login">
                   <Button variant="outlined">Enter</Button>
                 </Link>
-                <Link to="/register">
+                <Link to="/signup">
                   <Button variant="contained">Create Account</Button>
                 </Link>
               </>
