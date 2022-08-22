@@ -3,3 +3,4 @@ export { Home } from "./Home";
 export { SignUp } from "./SignUp";
 export { AddPost } from "./AddPost";
 export { FullPost } from "./FullPost";
+export { NotFoundPage } from "./NotFoundPage";
