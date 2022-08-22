@@ -10,35 +10,9 @@ import CommentIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import styles from "./Post.module.scss";
 import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
+import { ExtendedPostProps } from "../../redux/posts/types";
 
-type TUser = {
-  _id?: string;
-  fullName: string;
-  email?: string;
-  passwordHash?: string;
-  avatarUrl: string;
-  createdAt?: string;
-  updatedAt?: string;
-  __v?: number;
-};
-
-type PostProps = {
-  id: number;
-  _id?: number;
-  title: string;
-  createdAt: string;
-  imageUrl: string;
-  user: TUser;
-  viewsCount: number;
-  commentsCount: number;
-  tags: string[];
-  children?: string;
-  isFullPost?: boolean;
-  isLoading?: boolean;
-  isEditable?: boolean;
-};
-
-export const Post: React.FC<PostProps> = ({
+export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   _id,
   title,
   createdAt,
@@ -76,7 +50,7 @@ export const Post: React.FC<PostProps> = ({
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
           src={imageUrl}
-          alt={title}
+          alt={"img"}
         />
       )}
       <div className={styles.wrapper}>
@@ -88,9 +62,9 @@ export const Post: React.FC<PostProps> = ({
             {isFullPost ? title : <Link to={`/posts/${_id}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
-            {tags.map((name) => (
+            {tags?.map((name) => (
               <li key={name}>
-                <a href={`/tag/${name}`}>#{name}</a>
+                <Link to={`/tag/${name}`}>#{name}</Link>
               </li>
             ))}
           </ul>

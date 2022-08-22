@@ -3,10 +3,12 @@ import ReactDOM from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import "./index.scss";
 import { theme } from "./theme";
 
 import App from "./App";
+import store from "./redux/store";
 
 const rootElement = document.getElementById("root");
 if (!(rootElement instanceof HTMLElement))
@@ -15,12 +17,14 @@ if (!(rootElement instanceof HTMLElement))
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </React.StrictMode>
-  </BrowserRouter>
+  <>
+    <CssBaseline />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </ThemeProvider>
+  </>
 );
