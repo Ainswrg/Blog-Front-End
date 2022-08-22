@@ -1,0 +1,46 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "plugins": ["prettier", "import", "react", "@typescript-eslint", "react-hooks"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "prettier/prettier": "warn",
+    "no-debugger": "off",
+    "no-console": "warn",
+    "class-methods-use-this": "off",
+    "import/no-dynamic-require": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "react/prop-types": "off",
+    "import/extensions": "off",
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-uses-react": 0,
+    "no-unused-vars": "warn",
+    "import/no-cycle": 0,
+    "react/display-name": 0
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
