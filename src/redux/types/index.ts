@@ -1,9 +1,9 @@
 export type TUser = {
   _id?: string;
-  fullName: string;
+  fullName?: string;
   email?: string;
   passwordHash?: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   createdAt?: string;
   updatedAt?: string;
   __v?: number;

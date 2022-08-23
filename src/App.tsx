@@ -2,8 +2,16 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import { AddPost, FullPost, Home, Login, NotFoundPage, SignUp } from "./pages";
+import { fetchAuthMe } from "./redux/auth/slice";
+import { useAppDispatch } from "./redux/store";
 
 const App: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>

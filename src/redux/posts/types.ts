@@ -23,7 +23,7 @@ export interface PostProps {
 }
 
 export interface IPost {
-  items: PostProps[];
+  items: ExtendedPostProps[];
   status: Status;
 }
 export interface IPostTags {
