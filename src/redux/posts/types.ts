@@ -1,16 +1,6 @@
-export type TUser = {
-  _id?: string;
-  fullName: string;
-  email?: string;
-  passwordHash?: string;
-  avatarUrl: string;
-  createdAt?: string;
-  updatedAt?: string;
-  __v?: number;
-};
+import { Status, TUser } from "../types";
 
 export interface ExtendedPostProps extends PostProps {
-  id: number;
   imageUrl?: string;
   commentsCount?: number;
   children?: string;
@@ -20,7 +10,8 @@ export interface ExtendedPostProps extends PostProps {
 }
 
 export interface PostProps {
-  _id?: string;
+  _id?: string | number;
+  id?: string | number;
   title: string;
   text?: string;
   tags: string[];
@@ -31,18 +22,16 @@ export interface PostProps {
   __v?: number;
 }
 
-export const enum Status {
-  LOADING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
-}
-
 export interface IPost {
   items: PostProps[];
+  status: Status;
+}
+export interface IPostTags {
+  items: string[];
   status: Status;
 }
 
 export interface IPostSlice {
   posts: IPost;
-  tags: IPost;
+  tags: IPostTags;
 }

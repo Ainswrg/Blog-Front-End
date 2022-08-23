@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React from "react";
 import { useSelector } from "react-redux";
 import Tabs from "@mui/material/Tabs";
@@ -9,13 +8,13 @@ import { Post, CommentsBlock, TagsBlock } from "../components";
 import { fetchPosts, fetchTags } from "../redux/posts/slice";
 import { useAppDispatch } from "../redux/store";
 import { selectPostData } from "../redux/posts/selectors";
-import { Status } from "../redux/posts/types";
+import { Status } from "../redux/types";
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const { posts, tags } = useSelector(selectPostData);
-
-  const isLoading = posts.status === Status.LOADING;
+  const isPostLoading = posts.status === Status.LOADING;
+  const isTagsLoading = tags.status === Status.LOADING;
 
   React.useEffect(() => {
     dispatch(fetchPosts());
@@ -34,8 +33,8 @@ export const Home: React.FC = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {(isLoading ? [...Array(5)] : posts.items).map((obj, i) =>
-            isLoading ? (
+          {(isPostLoading ? [...Array(5)] : posts.items).map((obj, i) =>
+            isPostLoading ? (
               <Post
                 key={i}
                 isLoading={true}
@@ -56,7 +55,7 @@ export const Home: React.FC = () => {
                 key={obj._id}
                 id={obj._id}
                 title={obj.title}
-                imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+                imageUrl={obj.imageUrl}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
@@ -68,10 +67,7 @@ export const Home: React.FC = () => {
           )}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock
-            items={["react", "typescript", "notes"]}
-            isLoading={false}
-          />
+          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {

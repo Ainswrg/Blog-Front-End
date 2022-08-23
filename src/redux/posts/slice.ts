@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { IPostSlice, PostProps, Status } from "./types";
+import { IPostSlice, PostProps } from "./types";
 import axios from "../../axios";
+import { Status } from "../types";
 
 export const fetchPosts = createAsyncThunk<PostProps[]>(
   "posts/fetchPosts",
@@ -52,7 +53,22 @@ const postSlice = createSlice({
       state.posts.items = [];
       state.posts.status = Status.ERROR;
     },
+    [fetchTags.pending.type]: (state: IPostSlice) => {
+      state.tags.items = [];
+      state.tags.status = Status.LOADING;
+    },
+    [fetchTags.fulfilled.type]: (
+      state: IPostSlice,
+      action: PayloadAction<string[]>
+    ) => {
+      state.tags.items = action.payload;
+      state.tags.status = Status.SUCCESS;
+    },
+    [fetchTags.rejected.type]: (state: IPostSlice) => {
+      state.tags.items = [];
+      state.tags.status = Status.ERROR;
+    },
   },
 });
 
-export const posts = postSlice.reducer;
+export const postsReducer = postSlice.reducer;
