@@ -4,15 +4,21 @@ import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import SimpleMDE from "react-simplemde-editor";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
 import { selectIsAuth } from "../../redux/auth/selectors";
 import { getTokenLocalStorage } from "../../utils";
 import axios from "../../axios";
+import { ExtendedPostProps } from "../../redux/posts/types";
+
+type PostData = {
+  data: ExtendedPostProps;
+};
 
 export const AddPost: React.FC = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const [text, setText] = React.useState("");
@@ -21,6 +27,8 @@ export const AddPost: React.FC = () => {
   const [tags, setTags] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
   const inputFileRef = React.useRef<HTMLInputElement>(null);
+
+  const isEditable = Boolean(id);
 
   const handleChangeFile = async (e: React.FormEvent) => {
     try {
@@ -56,15 +64,34 @@ export const AddPost: React.FC = () => {
         text,
       };
 
-      const { data } = await axios.post("/posts", fields);
+      const { data } = isEditable
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post("/posts", fields);
 
-      const id = data._id;
+      const curId: string = isEditable ? id : data._id;
 
-      navigate(`/posts/${id}`);
+      navigate(`/posts/${curId}`);
     } catch (err) {
       console.warn("Error creating article");
     }
   };
+
+  React.useEffect(() => {
+    if (id) {
+      axios
+        .get<ExtendedPostProps, PostData>(`/posts/${id}`)
+        .then(({ data }: PostData) => {
+          setTitle(data.title);
+          setText(data.text!);
+          setImageUrl(data.imageUrl!);
+          setTags(data.tags.join(","));
+        })
+        .catch((err) => {
+          console.warn(err);
+          alert("Error getting article");
+        });
+    }
+  }, []);
 
   const options = React.useMemo(
     () => ({
@@ -148,7 +175,7 @@ export const AddPost: React.FC = () => {
           size="large"
           variant="contained"
         >
-          Publish
+          {isEditable ? "Save" : "Publish"}
         </Button>
         <Link to="/">
           <Button size="large">Cancel</Button>
