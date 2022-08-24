@@ -1,17 +1,18 @@
+import React from "react";
 import { Status, TUser } from "../types";
 
 export interface ExtendedPostProps extends PostProps {
   imageUrl?: string;
   commentsCount?: number;
-  children?: string;
+  children?: React.ReactNode | string;
   isFullPost?: boolean;
   isLoading?: boolean;
   isEditable?: boolean;
 }
 
 export interface PostProps {
-  _id?: string | number;
-  id?: string | number;
+  _id?: string;
+  id?: string;
   title: string;
   text?: string;
   tags: string[];
@@ -35,3 +36,15 @@ export interface IPostSlice {
   posts: IPost;
   tags: IPostTags;
 }
+
+export type Meta = {
+  arg?: string;
+  requestId: string;
+  requestStatus: string;
+};
+
+export type Action = {
+  type: string;
+  meta: Meta;
+  payload: PostProps[];
+};

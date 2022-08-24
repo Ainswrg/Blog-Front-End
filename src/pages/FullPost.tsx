@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 import { Post } from "../components/Post";
 import { Index } from "../components/AddComment";
@@ -11,6 +12,9 @@ export const FullPost = () => {
   const [data, setData] = React.useState<ExtendedPostProps>();
   const [isLoading, setLoading] = React.useState(true);
   const { id } = useParams();
+
+  const text: string = data?.text ? data.text : "empty";
+
   React.useEffect(() => {
     axios
       .get<ExtendedPostProps>(`/posts/${id}`)
@@ -32,7 +36,9 @@ export const FullPost = () => {
       <Post
         id={data?._id}
         title={data?.title}
-        imageUrl={data?.imageUrl}
+        imageUrl={
+          data?.imageUrl ? `http://localhost:4444/${data.imageUrl}` : ""
+        }
         user={data?.user}
         createdAt={data?.createdAt}
         viewsCount={data?.viewsCount}
@@ -40,7 +46,7 @@ export const FullPost = () => {
         tags={data?.tags}
         isFullPost
       >
-        {data?.text}
+        <ReactMarkdown children={text} />
       </Post>
       <CommentsBlock
         items={[

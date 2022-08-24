@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { IPostSlice, PostProps } from "./types";
+import { IPostSlice, PostProps, Action } from "./types";
 import axios from "../../axios";
 import { Status } from "../types";
 
@@ -18,6 +18,14 @@ export const fetchTags = createAsyncThunk<PostProps[]>(
     const { data } = await axios.get<PostProps[]>("/tags");
 
     return data;
+  }
+);
+export const fetchRemovePost = createAsyncThunk(
+  "posts/fetchRemovePost",
+  async (id: string) => {
+    await axios.delete(`/posts/${id}`);
+
+    return { message: "Success" };
   }
 );
 
@@ -38,6 +46,7 @@ const postSlice = createSlice({
 
   reducers: {},
   extraReducers: {
+    // get posts
     [fetchPosts.pending.type]: (state: IPostSlice) => {
       state.posts.items = [];
       state.posts.status = Status.LOADING;
@@ -53,6 +62,7 @@ const postSlice = createSlice({
       state.posts.items = [];
       state.posts.status = Status.ERROR;
     },
+    // get tags
     [fetchTags.pending.type]: (state: IPostSlice) => {
       state.tags.items = [];
       state.tags.status = Status.LOADING;
@@ -67,6 +77,12 @@ const postSlice = createSlice({
     [fetchTags.rejected.type]: (state: IPostSlice) => {
       state.tags.items = [];
       state.tags.status = Status.ERROR;
+    },
+    // remove post
+    [fetchRemovePost.pending.type]: (state: IPostSlice, action: Action) => {
+      state.posts.items = state.posts.items.filter(
+        (obj) => obj._id !== action.meta.arg
+      );
     },
   },
 });

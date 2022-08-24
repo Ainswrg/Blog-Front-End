@@ -11,6 +11,8 @@ import styles from "./Post.module.scss";
 import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
 import { ExtendedPostProps } from "../../redux/posts/types";
+import { fetchRemovePost } from "../../redux/posts/slice";
+import { useAppDispatch } from "../../redux/store";
 
 export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   id,
@@ -26,10 +28,18 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   isLoading,
   isEditable,
 }) => {
+  const dispatch = useAppDispatch();
+
   if (isLoading) {
     return <PostSkeleton />;
   }
-  const onClickRemove = () => {};
+  const onClickRemove = () => {
+    if (window.confirm("Are you sure you want to remove post?")) {
+      if (!id) throw new Error("Id is not defined");
+      console.log(id);
+      dispatch(fetchRemovePost(id));
+    }
+  };
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

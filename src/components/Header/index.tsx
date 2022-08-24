@@ -8,10 +8,10 @@ import Container from "@mui/material/Container";
 import styles from "./Header.module.scss";
 import { selectIsAuth } from "../../redux/auth/selectors";
 import { logout } from "../../redux/auth/slice";
-import { setTokenLocalStorage } from "../../utils";
+import { getTokenLocalStorage, setTokenLocalStorage } from "../../utils";
 
 export const Header: React.FC = () => {
-  const isAuth = useSelector(selectIsAuth);
+  const isNotAuth = !useSelector(selectIsAuth) && !getTokenLocalStorage();
   const dispatch = useDispatch();
 
   const onClickLogout = () => {
@@ -29,9 +29,9 @@ export const Header: React.FC = () => {
             <div>BLOG</div>
           </Link>
           <div className={styles.buttons}>
-            {isAuth ? (
+            {!isNotAuth ? (
               <>
-                <Link to="/posts/create">
+                <Link to="/add-post">
                   <Button variant="contained">Write Article</Button>
                 </Link>
                 <Button
