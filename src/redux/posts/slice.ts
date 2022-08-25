@@ -1,13 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { IPostSlice, PostProps, Action } from "./types";
+import { IPostSlice, PostProps, Action, Params, DataProps } from "./types";
 import axios from "../../axios";
 import { Status } from "../types";
 
-export const fetchPosts = createAsyncThunk<PostProps[]>(
+export const fetchPosts = createAsyncThunk<PostProps[], Params>(
   "posts/fetchPosts",
-  async () => {
-    const { data } = await axios.get<PostProps[]>("/posts");
+  async (params) => {
+    const querySort = params.sort ? `?sort=${params.sort}` : "";
+    const queryOrder = params.order ? `&order=${params.order}` : "";
+
+    const { data } = await axios.get<PostProps[], DataProps>(
+      `/posts${querySort}${queryOrder}`
+    );
 
     return data;
   }

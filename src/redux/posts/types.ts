@@ -48,3 +48,12 @@ export type Action = {
   meta: Meta;
   payload: PostProps[];
 };
+
+export type DataProps = {
+  data: PostProps[];
+};
+
+export type Params = {
+  sort: string;
+  order: string;
+};

@@ -2,9 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { postsReducer } from "./posts/slice";
 import { authReducer } from "./auth/slice";
+import { filterReducer } from "./filter/slice";
 
 const store = configureStore({
-  reducer: { posts: postsReducer, auth: authReducer },
+  reducer: { posts: postsReducer, auth: authReducer, filter: filterReducer },
 });
 
 export default store;
