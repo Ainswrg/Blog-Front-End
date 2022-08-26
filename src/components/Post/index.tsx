@@ -36,7 +36,6 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   const onClickRemove = () => {
     if (window.confirm("Are you sure you want to remove post?")) {
       if (!id) throw new Error("Id is not defined");
-      console.log(id);
       dispatch(fetchRemovePost(id));
     }
   };
