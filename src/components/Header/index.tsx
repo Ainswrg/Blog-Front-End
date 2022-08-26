@@ -9,6 +9,8 @@ import styles from "./Header.module.scss";
 import { selectIsAuth } from "../../redux/auth/selectors";
 import { logout } from "../../redux/auth/slice";
 import { getTokenLocalStorage, setTokenLocalStorage } from "../../utils";
+import { setPostTitle } from "../../redux/posts/slice";
+import { setCategoryType } from "../../redux/filter/slice";
 
 export const Header: React.FC = () => {
   const isNotAuth = !useSelector(selectIsAuth) && !getTokenLocalStorage();
@@ -21,12 +23,17 @@ export const Header: React.FC = () => {
     }
   };
 
+  const handleOnClick = (name: string): void => {
+    dispatch(setPostTitle(name));
+    dispatch(setCategoryType(name));
+  };
+
   return (
     <div className={styles.root}>
       <Container maxWidth="lg">
         <div className={styles.inner}>
           <Link to="/" className={styles.logo}>
-            <div>BLOG</div>
+            <div onClick={() => handleOnClick("")}>BLOG</div>
           </Link>
           <div className={styles.buttons}>
             {!isNotAuth ? (

@@ -9,9 +9,11 @@ export const fetchPosts = createAsyncThunk<PostProps[], Params>(
   async (params) => {
     const querySort = params.sort ? `?sort=${params.sort}` : "";
     const queryOrder = params.order ? `&order=${params.order}` : "";
-
+    const queryCategory = params.tagCategory
+      ? `&category=${params.tagCategory}`
+      : "";
     const { data } = await axios.get<PostProps[], DataProps>(
-      `/posts${querySort}${queryOrder}`
+      `/posts${querySort}${queryOrder}${queryCategory}`
     );
 
     return data;
@@ -43,13 +45,18 @@ const initialState: IPostSlice = {
     items: [],
     status: Status.LOADING,
   },
+  postsTitle: "",
 };
 
 const postSlice = createSlice({
   name: "posts",
   initialState,
 
-  reducers: {},
+  reducers: {
+    setPostTitle: (state: IPostSlice, action: PayloadAction<string>) => {
+      state.postsTitle = action.payload;
+    },
+  },
   extraReducers: {
     // get posts
     [fetchPosts.pending.type]: (state: IPostSlice) => {
@@ -91,5 +98,5 @@ const postSlice = createSlice({
     },
   },
 });
-
+export const { setPostTitle } = postSlice.actions;
 export const postsReducer = postSlice.reducer;

@@ -35,6 +35,7 @@ export interface IPostTags {
 export interface IPostSlice {
   posts: IPost;
   tags: IPostTags;
+  postsTitle: string;
 }
 
 export type Meta = {
@@ -56,4 +57,5 @@ export type DataProps = {
 export type Params = {
   sort: string;
   order: string;
+  tagCategory: string;
 };

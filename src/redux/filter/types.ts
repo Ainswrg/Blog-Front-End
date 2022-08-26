@@ -7,4 +7,5 @@ export enum SortPropertyEnum {
 
 export type FilterSliceState = {
   sort: SortPropertyEnum;
+  tagCategory: string;
 };

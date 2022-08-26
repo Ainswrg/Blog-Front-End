@@ -5,9 +5,10 @@ import qs from "qs";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 import { Post, CommentsBlock, TagsBlock } from "../components";
-import { fetchPosts, fetchTags } from "../redux/posts/slice";
+import { fetchPosts, fetchTags, setPostTitle } from "../redux/posts/slice";
 import { useAppDispatch } from "../redux/store";
 import { selectPostData } from "../redux/posts/selectors";
 import { Status } from "../redux/types";
@@ -26,9 +27,8 @@ export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const userData = useSelector(selectAuth);
   const navigate = useNavigate();
-  const { posts, tags } = useSelector(selectPostData);
-  const { sort } = useSelector(selectFilter);
-  const isSearch = React.useRef(false);
+  const { posts, tags, postsTitle } = useSelector(selectPostData);
+  const { sort, tagCategory } = useSelector(selectFilter);
   const isMounted = React.useRef(false);
   const [active, setActive] = React.useState(0);
 
@@ -39,13 +39,19 @@ export const Home: React.FC = () => {
     const order = sort.includes("-") ? "asc" : "desc";
     const sortBy = sort.replace("-", "");
 
+    const { category } = qs.parse(window.location.search.substring(1));
+    const titleCategory: string = category
+      ? category.toString().substring(0, 1).toUpperCase() +
+        category.toString().substring(1)
+      : "";
+    dispatch(setPostTitle(titleCategory));
     dispatch(
       fetchPosts({
-        order,
         sort: sortBy,
+        order,
+        tagCategory: category as string,
       })
     );
-
     window.scrollTo(0, 0);
   };
 
@@ -61,35 +67,38 @@ export const Home: React.FC = () => {
       dispatch(
         setFilters({
           sort: params.sort,
+          tagCategory: params.category || "",
         })
       );
-      isSearch.current = true;
       navigate("/");
     }
   }, []);
-  React.useEffect(() => {
-    if (!isSearch.current) {
-      getPosts();
-      dispatch(fetchTags());
-    }
 
-    isSearch.current = false;
-  }, [sort]);
   React.useEffect(() => {
     if (isMounted.current) {
+      const order = sort.includes("-") ? "asc" : "desc";
+      const sortBy = sort.replace("-", "");
       const params = {
-        sort,
+        sort: sortBy,
+        order,
+        category: tagCategory,
       };
-      const queryString = qs.stringify(params, { skipNulls: true });
-
-      navigate(`?${queryString}`);
+      const queryString = qs.stringify(params, {
+        skipNulls: true,
+        addQueryPrefix: true,
+      });
+      navigate(`${queryString}`);
     }
-
     isMounted.current = true;
-  }, [sort]);
+    dispatch(fetchTags());
+    getPosts();
+  }, [sort, tagCategory]);
 
   return (
     <>
+      <Typography gutterBottom align="center" variant="h3">
+        {postsTitle}
+      </Typography>
       <Tabs
         style={{ marginBottom: 15 }}
         value={active}
