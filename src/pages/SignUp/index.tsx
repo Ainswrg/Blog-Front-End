@@ -25,7 +25,6 @@ export const SignUp: React.FC = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm<TSignUpValues>({
     defaultValues: {

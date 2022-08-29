@@ -13,3 +13,11 @@ export const enum Status {
   SUCCESS = "success",
   ERROR = "error",
 }
+
+export const enum Request {
+  posts = "/posts",
+  tags = "/tags",
+  login = "/auth/login",
+  register = "/auth/register",
+  getMe = "/auth/me",
+}

@@ -2,26 +2,26 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { TState } from "./types";
 import axios from "../../axios";
-import { Status, TUser } from "../types";
+import { Request, Status, TUser } from "../types";
 
 export const fetchAuth = createAsyncThunk<TUser, TUser>(
   "auth/fetchAuth",
   async (params) => {
-    const { data } = await axios.post<TUser>("/auth/login", params);
+    const { data } = await axios.post<TUser>(Request.login, params);
     return data;
   }
 );
 export const fetchSignUp = createAsyncThunk<TUser, TUser>(
   "auth/fetchSignup",
   async (params) => {
-    const { data } = await axios.post<TUser>("/auth/register", params);
+    const { data } = await axios.post<TUser>(Request.register, params);
     return data;
   }
 );
 export const fetchAuthMe = createAsyncThunk<TUser>(
   "auth/fetchAuthMe",
   async () => {
-    const { data } = await axios.get<TUser>("/auth/me");
+    const { data } = await axios.get<TUser>(Request.getMe);
     return data;
   }
 );

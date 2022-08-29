@@ -32,7 +32,6 @@ export const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm<TLoginValues>({
     defaultValues: {

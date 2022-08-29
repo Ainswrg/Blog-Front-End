@@ -27,7 +27,7 @@
   ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": 0,
+    "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": "warn",
     "no-debugger": "off",
     "no-console": 0,

@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { IPostSlice, PostProps, Action, Params, DataProps } from "./types";
 import axios from "../../axios";
-import { Status } from "../types";
+import { Request, Status } from "../types";
 
 export const fetchPosts = createAsyncThunk<PostProps[], Params>(
   "posts/fetchPosts",
@@ -13,7 +13,7 @@ export const fetchPosts = createAsyncThunk<PostProps[], Params>(
       ? `&category=${params.tagCategory}`
       : "";
     const { data } = await axios.get<PostProps[], DataProps>(
-      `/posts${querySort}${queryOrder}${queryCategory}`
+      `${Request.posts}${querySort}${queryOrder}${queryCategory}`
     );
 
     return data;
@@ -22,7 +22,7 @@ export const fetchPosts = createAsyncThunk<PostProps[], Params>(
 export const fetchTags = createAsyncThunk<PostProps[]>(
   "posts/fetchTags",
   async () => {
-    const { data } = await axios.get<PostProps[]>("/tags");
+    const { data } = await axios.get<PostProps[]>(Request.tags);
 
     return data;
   }
@@ -30,7 +30,7 @@ export const fetchTags = createAsyncThunk<PostProps[]>(
 export const fetchRemovePost = createAsyncThunk(
   "posts/fetchRemovePost",
   async (id: string) => {
-    await axios.delete(`/posts/${id}`);
+    await axios.delete(`${Request.posts}/${id}`);
 
     return { message: "Success" };
   }

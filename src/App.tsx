@@ -10,7 +10,7 @@ const App: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Routes>

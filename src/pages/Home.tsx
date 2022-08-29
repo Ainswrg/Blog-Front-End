@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
   const isPostLoading = posts.status === Status.LOADING;
   const isTagsLoading = tags.status === Status.LOADING;
 
-  const getPosts = async () => {
+  const getPosts = React.useCallback(async () => {
     const order = sort.includes("-") ? "asc" : "desc";
     const sortBy = sort.replace("-", "");
 
@@ -53,7 +53,7 @@ export const Home: React.FC = () => {
       })
     );
     window.scrollTo(0, 0);
-  };
+  }, [dispatch, sort]);
 
   const onClickTab = (sortType: SortPropertyEnum, activeTab: ActiveTab) => {
     dispatch(setSortType(sortType));
@@ -72,7 +72,7 @@ export const Home: React.FC = () => {
       );
       navigate("/");
     }
-  }, []);
+  }, [dispatch, navigate]);
 
   React.useEffect(() => {
     if (isMounted.current) {
@@ -92,7 +92,7 @@ export const Home: React.FC = () => {
     isMounted.current = true;
     dispatch(fetchTags());
     getPosts();
-  }, [sort, tagCategory]);
+  }, [dispatch, getPosts, navigate, sort, tagCategory]);
 
   return (
     <>
