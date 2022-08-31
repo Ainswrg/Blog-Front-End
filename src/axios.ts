@@ -8,7 +8,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token: string = getTokenLocalStorage();
+    const token = getTokenLocalStorage();
+    if (!token) throw new Error("Token is required field!");
     config.headers = {
       Authorization: token,
     };

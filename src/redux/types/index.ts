@@ -20,4 +20,5 @@ export const enum Request {
   login = "/auth/login",
   register = "/auth/register",
   getMe = "/auth/me",
+  comments = "/comments",
 }

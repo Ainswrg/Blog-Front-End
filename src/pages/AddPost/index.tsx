@@ -22,7 +22,6 @@ export const AddPost: React.FC = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const [text, setText] = React.useState("");
-  const [isLoading, setLoading] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
@@ -55,8 +54,6 @@ export const AddPost: React.FC = () => {
 
   const onSubmit = async () => {
     try {
-      setLoading(true);
-
       const fields = {
         title,
         imageUrl,
@@ -91,7 +88,7 @@ export const AddPost: React.FC = () => {
           alert("Error getting article");
         });
     }
-  }, []);
+  }, [id]);
 
   const options = React.useMemo(
     () => ({

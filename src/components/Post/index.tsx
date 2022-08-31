@@ -30,15 +30,16 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  if (isLoading) {
-    return <PostSkeleton />;
-  }
   const onClickRemove = () => {
     if (window.confirm("Are you sure you want to remove post?")) {
       if (!id) throw new Error("Id is not defined");
       dispatch(fetchRemovePost(id));
     }
   };
+
+  if (isLoading) {
+    return <PostSkeleton />;
+  }
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

@@ -1,9 +1,9 @@
 import React from "react";
+import { CommentProps } from "../comments/types";
 import { Status, TUser } from "../types";
 
 export interface ExtendedPostProps extends PostProps {
   imageUrl?: string;
-  commentsCount?: number;
   children?: React.ReactNode | string;
   isFullPost?: boolean;
   isLoading?: boolean;
@@ -21,6 +21,8 @@ export interface PostProps {
   createdAt: string;
   updatedAt?: string;
   __v?: number;
+  commentsCount: number;
+  comments: CommentProps[];
 }
 
 export interface IPost {

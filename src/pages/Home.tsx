@@ -17,6 +17,8 @@ import { ExtendedPostProps } from "../redux/posts/types";
 import { selectFilter } from "../redux/filter/selectors";
 import { setFilters, setSortType } from "../redux/filter/slice";
 import { SortPropertyEnum } from "../redux/filter/types";
+import { selectLastComments } from "../redux/comments/selectors";
+import { fetchLastFiveComments } from "../redux/comments/slice";
 
 enum ActiveTab {
   NEW = 0,
@@ -29,6 +31,7 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const { posts, tags, postsTitle } = useSelector(selectPostData);
   const { sort, tagCategory } = useSelector(selectFilter);
+  const lastData = useSelector(selectLastComments);
   const isMounted = React.useRef(false);
   const [active, setActive] = React.useState(0);
 
@@ -52,6 +55,7 @@ export const Home: React.FC = () => {
         tagCategory: category as string,
       })
     );
+    dispatch(fetchLastFiveComments());
     window.scrollTo(0, 0);
   }, [dispatch, sort]);
 
@@ -156,23 +160,8 @@ export const Home: React.FC = () => {
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
-            items={[
-              {
-                user: {
-                  fullName: "Jhon Doe",
-                  avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
-                },
-                text: "Test comments",
-              },
-              {
-                user: {
-                  fullName: "Andy Vans",
-                  avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
-                },
-                text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
-              },
-            ]}
-            isLoading={false}
+            items={lastData.comments}
+            isLoading={lastData.status}
           />
         </Grid>
       </Grid>

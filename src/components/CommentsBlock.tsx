@@ -9,56 +9,50 @@ import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 
 import { SideBlock } from "./SideBlock";
-
-type TUser = {
-  fullName: string;
-  avatarUrl: string;
-};
-
-type TItems = {
-  user: TUser;
-  text: string;
-};
+import { CommentProps } from "../redux/comments/types";
+import { Status } from "../redux/types";
 
 type CommentsBlockProps = {
-  items: TItems[];
+  items: CommentProps[];
   children?: React.ReactNode;
-  isLoading: boolean;
+  isLoading: Status;
 };
 
 export const CommentsBlock: React.FC<CommentsBlockProps> = ({
   items,
   children,
-  isLoading = true,
+  isLoading,
 }) => {
   return (
     <SideBlock title="Comments">
       <List>
-        {(isLoading ? [...Array(5)] : items).map((obj, index) => (
-          <React.Fragment key={index}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                {isLoading ? (
-                  <Skeleton variant="circular" width={40} height={40} />
+        {(isLoading === Status.LOADING ? [...Array(5)] : items).map(
+          (obj, index) => (
+            <React.Fragment key={index}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  {isLoading === Status.LOADING ? (
+                    <Skeleton variant="circular" width={40} height={40} />
+                  ) : (
+                    <Avatar alt={obj.user.fullName} src={obj.user.avatarUrl} />
+                  )}
+                </ListItemAvatar>
+                {isLoading === Status.LOADING ? (
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Skeleton variant="text" height={25} width={120} />
+                    <Skeleton variant="text" height={18} width={230} />
+                  </div>
                 ) : (
-                  <Avatar alt={obj.user.fullName} src={obj.user.avatarUrl} />
+                  <ListItemText
+                    primary={obj.user.fullName}
+                    secondary={obj.text}
+                  />
                 )}
-              </ListItemAvatar>
-              {isLoading ? (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <Skeleton variant="text" height={25} width={120} />
-                  <Skeleton variant="text" height={18} width={230} />
-                </div>
-              ) : (
-                <ListItemText
-                  primary={obj.user.fullName}
-                  secondary={obj.text}
-                />
-              )}
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </React.Fragment>
-        ))}
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </React.Fragment>
+          )
+        )}
       </List>
       {children}
     </SideBlock>
