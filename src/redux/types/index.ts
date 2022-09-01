@@ -15,10 +15,12 @@ export const enum Status {
 }
 
 export const enum Request {
-  posts = "/posts",
-  tags = "/tags",
-  login = "/auth/login",
-  register = "/auth/register",
-  getMe = "/auth/me",
-  comments = "/comments",
+  GET_POSTS = "/posts/get",
+  POSTS = "/posts",
+  TAGS = "/posts/tags",
+  LOGIN = "/auth/login",
+  REGISTER = "/auth/register",
+  GET_ME = "/auth/me",
+  COMMENTS = "/comments",
+  GET_LAST_FIVE_COMMENTS = "/comments/getLastFive",
 }

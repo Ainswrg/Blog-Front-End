@@ -13,7 +13,7 @@ export const fetchPosts = createAsyncThunk<PostProps[], Params>(
       ? `&category=${params.tagCategory}`
       : "";
     const { data } = await axios.get<PostProps[], DataProps>(
-      `${Request.posts}${querySort}${queryOrder}${queryCategory}`
+      `${Request.GET_POSTS}${querySort}${queryOrder}${queryCategory}`
     );
 
     return data;
@@ -22,7 +22,7 @@ export const fetchPosts = createAsyncThunk<PostProps[], Params>(
 export const fetchTags = createAsyncThunk<PostProps[]>(
   "posts/fetchTags",
   async () => {
-    const { data } = await axios.get<PostProps[]>(Request.tags);
+    const { data } = await axios.get<PostProps[]>(Request.TAGS);
 
     return data;
   }
@@ -30,7 +30,7 @@ export const fetchTags = createAsyncThunk<PostProps[]>(
 export const fetchRemovePost = createAsyncThunk(
   "posts/fetchRemovePost",
   async (id: string) => {
-    await axios.delete(`${Request.posts}/${id}`);
+    await axios.delete(`${Request.POSTS}/${id}`);
 
     return { message: "Success" };
   }

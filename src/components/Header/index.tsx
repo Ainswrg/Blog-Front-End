@@ -11,6 +11,7 @@ import { logout } from "../../redux/auth/slice";
 import { getTokenLocalStorage, setTokenLocalStorage } from "../../utils";
 import { setPostTitle } from "../../redux/posts/slice";
 import { setCategoryType } from "../../redux/filter/slice";
+import { LocalRoute } from "../../ts/enum";
 
 export const Header: React.FC = () => {
   const isNotAuth = !useSelector(selectIsAuth) && !getTokenLocalStorage();
@@ -38,7 +39,7 @@ export const Header: React.FC = () => {
           <div className={styles.buttons}>
             {!isNotAuth ? (
               <>
-                <Link to="/add-post">
+                <Link to={LocalRoute.ADD_POST}>
                   <Button variant="contained">Write Article</Button>
                 </Link>
                 <Button
@@ -51,10 +52,10 @@ export const Header: React.FC = () => {
               </>
             ) : (
               <>
-                <Link to="/login">
+                <Link to={LocalRoute.LOGIN}>
                   <Button variant="outlined">Enter</Button>
                 </Link>
-                <Link to="/signup">
+                <Link to={LocalRoute.SIGN_UP}>
                   <Button variant="contained">Create Account</Button>
                 </Link>
               </>

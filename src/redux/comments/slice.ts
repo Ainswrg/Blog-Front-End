@@ -8,7 +8,7 @@ export const fetchComments = createAsyncThunk<CommentProps[], string>(
   "comments/fetchComments",
   async (id: string) => {
     const { data } = await axios.get<CommentProps[], DataProps>(
-      `${Request.comments}/${id}`
+      `${Request.COMMENTS}/${id}`
     );
 
     return data;
@@ -18,7 +18,7 @@ export const fetchLastFiveComments = createAsyncThunk<CommentProps[]>(
   "comments/fetchLastFiveComments",
   async () => {
     const { data } = await axios.get<CommentProps[], DataProps>(
-      Request.comments
+      Request.GET_LAST_FIVE_COMMENTS
     );
 
     return data;
@@ -27,7 +27,7 @@ export const fetchLastFiveComments = createAsyncThunk<CommentProps[]>(
 export const fetchRemoveComment = createAsyncThunk(
   "comments/fetchRemoveComment",
   async (id: string) => {
-    await axios.delete(`${Request.comments}/${id}`);
+    await axios.delete(`${Request.COMMENTS}/${id}`);
 
     return { message: "Success" };
   }

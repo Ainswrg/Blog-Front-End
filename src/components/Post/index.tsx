@@ -11,8 +11,10 @@ import styles from "./Post.module.scss";
 import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
 import { ExtendedPostProps } from "../../redux/posts/types";
-import { fetchRemovePost } from "../../redux/posts/slice";
+import { fetchRemovePost, setPostTitle } from "../../redux/posts/slice";
 import { useAppDispatch } from "../../redux/store";
+import { LocalRoute } from "../../ts/enum";
+import { setCategoryType } from "../../redux/filter/slice";
 
 export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   id,
@@ -37,6 +39,11 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
     }
   };
 
+  const handleOnClick = (name: string): void => {
+    dispatch(setPostTitle(name));
+    dispatch(setCategoryType(name));
+  };
+
   if (isLoading) {
     return <PostSkeleton />;
   }
@@ -45,7 +52,7 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${id}/edit`}>
+          <Link to={`${LocalRoute.EDIT_POST}/${id}`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -68,12 +75,16 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
           <h2
             className={clsx(styles.title, { [styles.titleFull]: isFullPost })}
           >
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+            {isFullPost ? (
+              title
+            ) : (
+              <Link to={`${LocalRoute.POST}/${id}`}>{title}</Link>
+            )}
           </h2>
           <ul className={styles.tags}>
             {tags?.map((name) => (
-              <li key={name}>
-                <Link to={`/tag/${name}`}>#{name}</Link>
+              <li key={name} onClick={() => handleOnClick(name)}>
+                #{name}
               </li>
             ))}
           </ul>

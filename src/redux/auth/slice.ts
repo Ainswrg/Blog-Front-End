@@ -7,21 +7,21 @@ import { Request, Status, TUser } from "../types";
 export const fetchAuth = createAsyncThunk<TUser, TUser>(
   "auth/fetchAuth",
   async (params) => {
-    const { data } = await axios.post<TUser>(Request.login, params);
+    const { data } = await axios.post<TUser>(Request.LOGIN, params);
     return data;
   }
 );
 export const fetchSignUp = createAsyncThunk<TUser, TUser>(
   "auth/fetchSignup",
   async (params) => {
-    const { data } = await axios.post<TUser>(Request.register, params);
+    const { data } = await axios.post<TUser>(Request.REGISTER, params);
     return data;
   }
 );
 export const fetchAuthMe = createAsyncThunk<TUser>(
   "auth/fetchAuthMe",
   async () => {
-    const { data } = await axios.get<TUser>(Request.getMe);
+    const { data } = await axios.get<TUser>(Request.GET_ME);
     return data;
   }
 );

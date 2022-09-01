@@ -13,6 +13,7 @@ import { useAppDispatch } from "../redux/store";
 import { selectComments } from "../redux/comments/selectors";
 import { fetchComments } from "../redux/comments/slice";
 import { getTokenLocalStorage } from "../utils";
+import { Routers } from "../ts/enum";
 
 export const FullPost = () => {
   const [data, setData] = React.useState<ExtendedPostProps>();
@@ -38,7 +39,7 @@ export const FullPost = () => {
           text: content,
         };
 
-        await axios.post(`/comments/${id}`, field, {
+        await axios.post(`${Routers.COMMENTS}/${id}`, field, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${getTokenLocalStorage()}`,
@@ -58,7 +59,7 @@ export const FullPost = () => {
 
   React.useEffect(() => {
     axios
-      .get<ExtendedPostProps>(`/posts/${id}`)
+      .get<ExtendedPostProps>(`${Routers.POST}/${id}`)
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -77,9 +78,7 @@ export const FullPost = () => {
       <Post
         id={data?._id}
         title={data?.title}
-        imageUrl={
-          data?.imageUrl ? `http://localhost:4444/${data.imageUrl}` : ""
-        }
+        imageUrl={data?.imageUrl ? `${Routers.BASE_URL}/${data.imageUrl}` : ""}
         user={data?.user}
         createdAt={data?.createdAt}
         viewsCount={data?.viewsCount}

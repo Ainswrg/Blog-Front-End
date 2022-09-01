@@ -12,6 +12,7 @@ import { selectIsAuth } from "../../redux/auth/selectors";
 import { getTokenLocalStorage } from "../../utils";
 import axios from "../../axios";
 import { ExtendedPostProps } from "../../redux/posts/types";
+import { Routers } from "../../ts/enum";
 
 type PostData = {
   data: ExtendedPostProps;
@@ -36,7 +37,7 @@ export const AddPost: React.FC = () => {
       const file = target.files && target.files[0];
       if (!file) throw new Error("File is null");
       formData.append("image", file);
-      const { data } = await axios.post<Response>("/upload", formData);
+      const { data } = await axios.post<Response>(Routers.UPLOAD, formData);
       setImageUrl(data.url);
     } catch (err) {
       console.warn(err);
@@ -62,12 +63,12 @@ export const AddPost: React.FC = () => {
       };
 
       const { data } = isEditable
-        ? await axios.patch(`/posts/${id}`, fields)
-        : await axios.post("/posts", fields);
+        ? await axios.patch(`${Routers.POST}/${id}`, fields)
+        : await axios.post(Routers.ADD_POST, fields);
 
       const curId: string = isEditable ? id : data._id;
 
-      navigate(`/posts/${curId}`);
+      navigate(`${Routers.POST}/${curId}`);
     } catch (err) {
       console.warn("Error creating article");
     }
@@ -76,7 +77,7 @@ export const AddPost: React.FC = () => {
   React.useEffect(() => {
     if (id) {
       axios
-        .get<ExtendedPostProps, PostData>(`/posts/${id}`)
+        .get<ExtendedPostProps, PostData>(`${Routers.POST}/${id}`)
         .then(({ data }: PostData) => {
           setTitle(data.title);
           setText(data.text!);
@@ -136,7 +137,7 @@ export const AddPost: React.FC = () => {
           </Button>
           <img
             className={styles.image}
-            src={`http://localhost:4444/${imageUrl}`}
+            src={`${Routers.BASE_URL}/${imageUrl}`}
             alt="Uploaded"
           />
         </>
