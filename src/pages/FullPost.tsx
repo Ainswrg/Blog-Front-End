@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -18,37 +19,42 @@ export const FullPost = () => {
   const [isLoading, setLoading] = React.useState(true);
   const dispatch = useAppDispatch();
   const { id } = useParams();
+  const [isChange, setChange] = React.useState(false);
 
   const text: string = data?.text ? data.text : "empty";
 
   const commentsData = useSelector(selectComments);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  const toggle = React.useCallback(() => setChange((state) => !state), []);
   const getComments = () => {
     const currId = id as string;
     dispatch(fetchComments(currId));
   };
 
-  const addCommentClick = async (content: string) => {
-    try {
-      const field = {
-        text: content,
-      };
+  const addCommentClick = React.useCallback(
+    async (content: string) => {
+      try {
+        const field = {
+          text: content,
+        };
 
-      await axios.post(`/comments/${id}`, field, {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${getTokenLocalStorage()}`,
-        },
-      });
-      getComments();
-    } catch (err) {
-      console.warn("Error creating comment");
-    }
-  };
+        await axios.post(`/comments/${id}`, field, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${getTokenLocalStorage()}`,
+          },
+        });
+        toggle();
+      } catch (err) {
+        console.warn("Error creating comment");
+      }
+    },
+    [id, toggle]
+  );
 
   React.useEffect(() => {
     getComments();
-  }, [getComments]);
+  }, []);
 
   React.useEffect(() => {
     axios
@@ -61,7 +67,7 @@ export const FullPost = () => {
         console.warn(err);
         alert("Error");
       });
-  }, [id, commentsData]);
+  }, [id, isChange]);
 
   if (isLoading) {
     return <Post isLoading={isLoading} isFullPost />;
