@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    .button {
+      visibility: visible;
+    }
+  }
+}
+
+.icons {
+  grid-column: 2/2;
+  display: flex;
+  justify-content: flex-end;
+}
+.time {
+  grid-column: 1/2;
+
+}
+.button {
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    mix-blend-mode: hard-light;
+  }
+}

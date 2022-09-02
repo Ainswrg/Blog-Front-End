@@ -31,7 +31,13 @@ export interface IState {
   status: Status;
 }
 
+export interface IComment {
+  id: string;
+  text: string;
+}
 export interface ICommentSlice {
   data: IState;
   lastData: IState;
+  comment: IComment;
+  isEditable: boolean;
 }

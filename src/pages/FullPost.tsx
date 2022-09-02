@@ -10,21 +10,27 @@ import { CommentsBlock } from "../components/CommentsBlock";
 import axios from "../axios";
 import { ExtendedPostProps } from "../redux/posts/types";
 import { useAppDispatch } from "../redux/store";
-import { selectComments } from "../redux/comments/selectors";
+import {
+  selectComments,
+  selectComment,
+  selectIsEditable,
+} from "../redux/comments/selectors";
 import { fetchComments } from "../redux/comments/slice";
 import { getTokenLocalStorage } from "../utils";
 import { Routers } from "../ts/enum";
 
 export const FullPost = () => {
+  const dispatch = useAppDispatch();
   const [data, setData] = React.useState<ExtendedPostProps>();
   const [isLoading, setLoading] = React.useState(true);
-  const dispatch = useAppDispatch();
   const { id } = useParams();
   const [isChange, setChange] = React.useState(false);
 
-  const text: string = data?.text ? data.text : "empty";
-
+  const comment = useSelector(selectComment);
   const commentsData = useSelector(selectComments);
+  const isEditable = useSelector(selectIsEditable);
+
+  const textValue: string = data?.text ? data.text : "empty";
 
   const toggle = React.useCallback(() => setChange((state) => !state), []);
   const getComments = () => {
@@ -32,25 +38,33 @@ export const FullPost = () => {
     dispatch(fetchComments(currId));
   };
 
-  const addCommentClick = React.useCallback(
+  const fetchCommentClick = React.useCallback(
     async (content: string) => {
       try {
         const field = {
           text: content,
+          postId: id,
         };
 
-        await axios.post(`${Routers.COMMENTS}/${id}`, field, {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${getTokenLocalStorage()}`,
-          },
-        });
+        const response = isEditable
+          ? await axios.patch(`${Routers.COMMENTS}/${comment.id}`, field, {
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${getTokenLocalStorage()}`,
+              },
+            })
+          : await axios.post(`${Routers.COMMENTS}/${id}`, field, {
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${getTokenLocalStorage()}`,
+              },
+            });
         toggle();
       } catch (err) {
         console.warn("Error creating comment");
       }
     },
-    [id, toggle]
+    [id, isEditable, toggle]
   );
 
   React.useEffect(() => {
@@ -86,10 +100,14 @@ export const FullPost = () => {
         tags={data?.tags}
         isFullPost
       >
-        <ReactMarkdown children={text} />
+        <ReactMarkdown children={textValue} />
       </Post>
-      <CommentsBlock items={data?.comments!} isLoading={commentsData.status}>
-        <AddComment handleOnClick={addCommentClick} />
+      <CommentsBlock
+        toggle={toggle}
+        items={data?.comments!}
+        isLoading={commentsData.status}
+      >
+        <AddComment handleOnClick={fetchCommentClick} />
       </CommentsBlock>
     </>
   );

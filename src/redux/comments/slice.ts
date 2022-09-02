@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { CommentProps, DataProps, ICommentSlice } from "./types";
+import { CommentProps, DataProps, IComment, ICommentSlice } from "./types";
 import axios from "../../axios";
 import { Request, Status } from "../types";
 
@@ -42,13 +42,25 @@ const initialState: ICommentSlice = {
     comments: [],
     status: Status.LOADING,
   },
+  comment: {
+    id: "",
+    text: "",
+  },
+  isEditable: false,
 };
 
 const commentSlice = createSlice({
   name: "comments",
   initialState,
 
-  reducers: {},
+  reducers: {
+    setComment: (state: ICommentSlice, action: PayloadAction<IComment>) => {
+      state.comment = action.payload;
+    },
+    setEditable: (state, action: PayloadAction<boolean>) => {
+      state.isEditable = action.payload;
+    },
+  },
   extraReducers: {
     // get comment
     [fetchComments.pending.type]: (state: ICommentSlice) => {
@@ -89,4 +101,5 @@ const commentSlice = createSlice({
   },
 });
 
+export const { setComment, setEditable } = commentSlice.actions;
 export const commentReducer = commentSlice.reducer;

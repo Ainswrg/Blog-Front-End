@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
@@ -7,22 +7,41 @@ import Button from "@mui/material/Button";
 
 import styles from "./AddComment.module.scss";
 import { selectAuth } from "../../redux/auth/selectors";
+import {
+  selectComment,
+  selectIsEditable,
+} from "../../redux/comments/selectors";
+import { setComment, setEditable } from "../../redux/comments/slice";
 
 type Props = {
   handleOnClick: (content: string) => void;
 };
+
 export const AddComment: React.FC<Props> = ({ handleOnClick }) => {
   const data = useSelector(selectAuth);
-  const [text, setText] = React.useState("");
+  const dispatch = useDispatch();
+  const { text } = useSelector(selectComment);
+  const isEditable = useSelector(selectIsEditable);
+  const [value, setValue] = React.useState("");
 
   const onChange = (str: string) => {
-    setText(str);
+    setValue(str);
   };
 
-  const onSubmit = () => {
-    handleOnClick(text);
-    setText("");
+  const onSubmit = async () => {
+    const field = {
+      id: "",
+      text: "",
+    };
+
+    handleOnClick(value);
+    setValue("");
+    dispatch(setComment(field));
+    dispatch(setEditable(false));
   };
+  React.useEffect(() => {
+    setValue(text);
+  }, [text, dispatch, isEditable]);
 
   return (
     <>
@@ -36,11 +55,17 @@ export const AddComment: React.FC<Props> = ({ handleOnClick }) => {
             multiline
             fullWidth
             onChange={(e) => onChange(e.target.value)}
-            value={text}
+            value={value}
           />
-          <Button onClick={onSubmit} variant="contained">
-            Send
-          </Button>
+          {isEditable ? (
+            <Button onClick={onSubmit} variant="outlined">
+              Save
+            </Button>
+          ) : (
+            <Button onClick={onSubmit} variant="contained">
+              Send
+            </Button>
+          )}
         </div>
       </div>
     </>
