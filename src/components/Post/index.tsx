@@ -15,6 +15,7 @@ import { fetchRemovePost, setPostTitle } from "../../redux/posts/slice";
 import { useAppDispatch } from "../../redux/store";
 import { LocalRoute } from "../../ts/enum";
 import { setCategoryType } from "../../redux/filter/slice";
+import { time } from "../../utils";
 
 export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   id,
@@ -47,6 +48,7 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
   if (isLoading) {
     return <PostSkeleton />;
   }
+  const date = time(createdAt!);
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
@@ -70,7 +72,7 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
         />
       )}
       <div className={styles.wrapper}>
-        <UserInfo {...user} additionalText={createdAt} />
+        <UserInfo {...user} additionalText={date} />
         <div className={styles.indention}>
           <h2
             className={clsx(styles.title, { [styles.titleFull]: isFullPost })}

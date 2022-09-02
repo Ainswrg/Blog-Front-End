@@ -16,3 +16,10 @@ export const getTokenLocalStorage: TGetToken = () => {
 
   return token;
 };
+
+export const time = (timeValue: string): string => {
+  const arrDate = timeValue.split("T");
+  const date = arrDate[0];
+  const dateTime = arrDate[1].split(".")[0];
+  return `${date} ${dateTime}`;
+};
