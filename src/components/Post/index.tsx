@@ -67,7 +67,7 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
       {imageUrl && (
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={"/post.png"}
+          src={imageUrl || "/post.png"}
           alt={"img"}
         />
       )}
