@@ -13,6 +13,7 @@ import { getTokenLocalStorage } from "../../utils";
 import axios from "../../axios";
 import { ExtendedPostProps } from "../../redux/posts/types";
 import { Routers } from "../../ts/enum";
+import { constants } from "../../utils/const";
 
 type PostData = {
   data: ExtendedPostProps;
@@ -63,7 +64,7 @@ export const AddPost: React.FC = () => {
       };
 
       const { data } = isEditable
-        ? await axios.patch(`${Routers.POST}/${id}`, fields)
+        ? await axios.put(`${Routers.POST}/${id}`, fields)
         : await axios.post(Routers.ADD_POST, fields);
 
       const curId: string = isEditable ? id : data._id;
@@ -137,7 +138,7 @@ export const AddPost: React.FC = () => {
           </Button>
           <img
             className={styles.image}
-            src={`${Routers.BASE_URL}/${imageUrl}`}
+            src={`${constants.BASE_URL}/${imageUrl}`}
             alt="Uploaded"
           />
         </>

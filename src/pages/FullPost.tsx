@@ -18,6 +18,7 @@ import {
 import { fetchComments } from "../redux/comments/slice";
 import { getTokenLocalStorage } from "../utils";
 import { Routers } from "../ts/enum";
+import { constants } from "../utils/const";
 
 export const FullPost = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +48,7 @@ export const FullPost = () => {
         };
 
         const response = isEditable
-          ? await axios.patch(`${Routers.COMMENTS}/${comment.id}`, field, {
+          ? await axios.put(`${Routers.COMMENTS}/${comment.id}`, field, {
               headers: {
                 "Content-Type": "application/json",
                 authorization: `Bearer ${getTokenLocalStorage()}`,
@@ -92,7 +93,9 @@ export const FullPost = () => {
       <Post
         id={data?._id}
         title={data?.title}
-        imageUrl={data?.imageUrl ? `${Routers.BASE_URL}/${data.imageUrl}` : ""}
+        imageUrl={
+          data?.imageUrl ? `${constants.BASE_URL}/${data.imageUrl}` : ""
+        }
         user={data?.user}
         createdAt={data?.createdAt}
         viewsCount={data?.viewsCount}

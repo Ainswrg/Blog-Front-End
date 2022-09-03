@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 import axios from "axios";
-import { Routers } from "./ts/enum";
 import { getTokenLocalStorage } from "./utils";
+import { constants } from "./utils/const";
 
 const instance = axios.create({
-  baseURL: Routers.BASE_URL,
+  baseURL: constants.BASE_URL,
 });
 
 instance.interceptors.request.use(

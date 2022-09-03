@@ -1,5 +1,5 @@
 export const enum Routers {
-  BASE_URL = "http://localhost:5000",
+  BASE_URL = "https://ainswrg-mern-blog.herokuapp.com",
   POST = "/posts",
   ADD_POST = "/posts/addPost",
   COMMENTS = "/comments",

@@ -19,7 +19,7 @@ import { setFilters, setSortType } from "../redux/filter/slice";
 import { SortPropertyEnum } from "../redux/filter/types";
 import { selectLastComments } from "../redux/comments/selectors";
 import { fetchLastFiveComments } from "../redux/comments/slice";
-import { Routers } from "../ts/enum";
+import { constants } from "../utils/const";
 
 enum ActiveTab {
   NEW = 0,
@@ -146,7 +146,7 @@ export const Home: React.FC = () => {
                   id={obj._id}
                   title={obj.title}
                   imageUrl={
-                    obj.imageUrl ? `${Routers.BASE_URL}/${obj.imageUrl}` : ""
+                    obj.imageUrl ? `${constants.BASE_URL}/${obj.imageUrl}` : ""
                   }
                   user={obj.user}
                   createdAt={obj.createdAt}
