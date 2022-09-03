@@ -50,7 +50,6 @@ export const CommentsBlock: React.FC<CommentsBlockProps> = ({
     }
   };
   const onClickEdit = (id: string, text: string) => {
-    console.log(text);
     const field = {
       id,
       text,
