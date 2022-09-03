@@ -64,13 +64,11 @@ export const Post: React.FC<Partial<ExtendedPostProps>> = ({
           </IconButton>
         </div>
       )}
-      {imageUrl && (
-        <img
-          className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={imageUrl || "/post.png"}
-          alt={"img"}
-        />
-      )}
+      <img
+        className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
+        src={imageUrl || "/post.png"}
+        alt={"img"}
+      />
       <div className={styles.wrapper}>
         <UserInfo {...user} additionalText={date} />
         <div className={styles.indention}>
