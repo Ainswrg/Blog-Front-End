@@ -1,4 +1,3 @@
 export const constants = {
-  BASE_URL:
-    process.env.REACT_APP_API_URL || "https://ainswrg-mern-blog.herokuapp.com",
+  BASE_URL: "https://blog-backend-production-3e17.up.railway.app"
 };
